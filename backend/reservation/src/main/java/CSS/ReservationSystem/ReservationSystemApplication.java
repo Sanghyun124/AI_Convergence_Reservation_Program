@@ -1,4 +1,4 @@
-package com.example.ReservationSystem;
+package CSS.ReservationSystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
