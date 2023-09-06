@@ -7,6 +7,7 @@ import CSS.ReservationSystem.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,6 @@ import java.util.stream.Collectors;
 public class ReservationServiceImpl implements ReservationService{
 
     private final ReservationRepository reservationRepository;
-    private final RoomRepository roomRepository;
 
     public List<GetReservationDto> getReservation(){
         List<Reservation> reservations= reservationRepository.findAll();
@@ -31,6 +31,24 @@ public class ReservationServiceImpl implements ReservationService{
         }).collect(Collectors.toList());
 
     }
+
+    public List<GetReservationDto> getReservationByDate(int date){
+        int year = 2000+(date/10000);
+        int month = (date/100)%100;
+        int day = (date%100);
+        LocalDate target = LocalDate.of(year,month,day);
+        List<Reservation> reservations = reservationRepository.findAllByDate(target);
+        return reservations.stream().map(reservation ->{
+            GetReservationDto newDto = new GetReservationDto();
+            newDto.setReservationId(reservation.getId());
+            newDto.setDate(reservation.getDate());
+            newDto.setStartTime(reservation.getStartTime());
+            newDto.setEndTime(reservation.getEndTime());
+            newDto.setRoomId(reservation.getRoom().getId());
+            return newDto;
+        }).collect(Collectors.toList());
+    }
+
 
 
 }
