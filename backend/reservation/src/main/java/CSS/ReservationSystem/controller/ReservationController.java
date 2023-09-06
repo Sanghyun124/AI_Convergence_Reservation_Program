@@ -4,9 +4,11 @@ import CSS.ReservationSystem.domain.Reservation;
 import CSS.ReservationSystem.dto.GetReservationDto;
 import CSS.ReservationSystem.service.ReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -19,5 +21,10 @@ public class ReservationController {
     @GetMapping("")
     private ResponseEntity<List<GetReservationDto>> getReservation(){
         return ResponseEntity.ok().body(reservationService.getReservation());
+    }
+
+    @GetMapping("/date/{date}")
+    private ResponseEntity<List<GetReservationDto>> getReservationByDate(@PathVariable int date){
+        return ResponseEntity.ok().body(reservationService.getReservationByDate(date));
     }
 }
