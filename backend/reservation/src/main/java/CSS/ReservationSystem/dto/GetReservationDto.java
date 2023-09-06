@@ -13,9 +13,13 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class GetReservationDto {
 
+    private Long reservationId;
+
     private LocalDate date;
 
     private LocalTime startTime;
 
     private LocalTime endTime;
+
+    private Long roomId;
 }

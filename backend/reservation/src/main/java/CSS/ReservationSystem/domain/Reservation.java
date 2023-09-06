@@ -2,10 +2,7 @@ package CSS.ReservationSystem.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -25,6 +22,10 @@ public class Reservation {
     private LocalTime endTime;
 
     private LocalDate date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="room_id")
+    private Room room;
 
 }
 
