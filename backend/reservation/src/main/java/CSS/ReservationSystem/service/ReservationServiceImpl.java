@@ -49,6 +49,8 @@ public class ReservationServiceImpl implements ReservationService{
         }).collect(Collectors.toList());
     }
 
-
+    public void deleteReservation(Long id){
+        reservationRepository.deleteById(id);
+    }
 
 }

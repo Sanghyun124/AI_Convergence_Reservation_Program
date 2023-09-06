@@ -4,6 +4,7 @@ import CSS.ReservationSystem.domain.Reservation;
 import CSS.ReservationSystem.dto.GetReservationDto;
 import CSS.ReservationSystem.service.ReservationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +27,11 @@ public class ReservationController {
     @GetMapping("/date/{date}")
     private ResponseEntity<List<GetReservationDto>> getReservationByDate(@PathVariable int date){
         return ResponseEntity.ok().body(reservationService.getReservationByDate(date));
+    }
+
+    @DeleteMapping("/{id}")//id : reservation-id
+    private ResponseEntity<HttpStatus> deleteReservation(@PathVariable Long id){
+        reservationService.deleteReservation(id);
+        return ResponseEntity.ok().body(HttpStatus.ACCEPTED);
     }
 }
