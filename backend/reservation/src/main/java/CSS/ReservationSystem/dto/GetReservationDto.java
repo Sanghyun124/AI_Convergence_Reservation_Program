@@ -22,4 +22,6 @@ public class GetReservationDto {
     private LocalTime endTime;
 
     private Long roomId;
+
+    private Long memberId;
 }

@@ -27,5 +27,9 @@ public class Reservation {
     @JoinColumn(name="room_id")
     private Room room;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="room_id")
+    private Member member;
+
 }
 
