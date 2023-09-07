@@ -27,6 +27,7 @@ public class ReservationServiceImpl implements ReservationService{
             newDto.setStartTime(reservation.getStartTime());
             newDto.setEndTime(reservation.getEndTime());
             newDto.setRoomId(reservation.getRoom().getId());
+            newDto.setMemberId(reservation.getMember().getId());
             return newDto;
         }).collect(Collectors.toList());
 
