@@ -13,4 +13,6 @@ public interface ReservationService {
     public List<GetReservationDto> getReservationByDate(int date);
 
     public void deleteReservation(Long id);
+
+    public List<GetReservationDto> getReservationByMember(Long id);
 }

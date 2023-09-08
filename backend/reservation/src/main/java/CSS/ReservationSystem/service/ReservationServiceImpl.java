@@ -1,7 +1,9 @@
 package CSS.ReservationSystem.service;
 
+import CSS.ReservationSystem.domain.Member;
 import CSS.ReservationSystem.domain.Reservation;
 import CSS.ReservationSystem.dto.GetReservationDto;
+import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.repository.ReservationRepository;
 import CSS.ReservationSystem.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class ReservationServiceImpl implements ReservationService{
 
     private final ReservationRepository reservationRepository;
+    private final MemberRepository memberRepository;
 
     public List<GetReservationDto> getReservation(){
         List<Reservation> reservations= reservationRepository.findAll();
@@ -52,6 +55,22 @@ public class ReservationServiceImpl implements ReservationService{
 
     public void deleteReservation(Long id){
         reservationRepository.deleteById(id);
+    }
+
+    public List<GetReservationDto> getReservationByMember(Long id){
+        Member member = memberRepository.findByid(id);
+        List<Reservation> reservations= reservationRepository.findAllByMember(member);
+        return reservations.stream().map(reservation ->{
+            GetReservationDto newDto = new GetReservationDto();
+            newDto.setReservationId(reservation.getId());
+            newDto.setDate(reservation.getDate());
+            newDto.setStartTime(reservation.getStartTime());
+            newDto.setEndTime(reservation.getEndTime());
+            newDto.setRoomId(reservation.getRoom().getId());
+            newDto.setMemberId(reservation.getMember().getId());
+            return newDto;
+        }).collect(Collectors.toList());
+
     }
 
 }
