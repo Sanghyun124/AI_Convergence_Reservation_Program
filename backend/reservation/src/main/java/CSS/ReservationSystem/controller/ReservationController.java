@@ -2,6 +2,7 @@ package CSS.ReservationSystem.controller;
 
 import CSS.ReservationSystem.domain.Reservation;
 import CSS.ReservationSystem.dto.GetReservationDto;
+import CSS.ReservationSystem.dto.ReservationRequestDto;
 import CSS.ReservationSystem.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -38,5 +39,11 @@ public class ReservationController {
     @GetMapping("/member/{id}") // id : member-id
     private ResponseEntity<List<GetReservationDto>> getReservationByMember(@PathVariable Long id){
         return ResponseEntity.ok().body(reservationService.getReservationByMember(id));
+    }
+
+    @PostMapping("/create")
+    private ResponseEntity<HttpStatus> createReservation(@RequestBody ReservationRequestDto reservationRequestDto){
+        reservationService.createReservation(reservationRequestDto);
+        return ResponseEntity.ok().body(HttpStatus.CREATED);
     }
 }

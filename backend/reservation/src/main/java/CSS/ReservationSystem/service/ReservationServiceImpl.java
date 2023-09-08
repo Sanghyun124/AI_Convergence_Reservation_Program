@@ -2,7 +2,10 @@ package CSS.ReservationSystem.service;
 
 import CSS.ReservationSystem.domain.Member;
 import CSS.ReservationSystem.domain.Reservation;
+import CSS.ReservationSystem.domain.Room;
+import CSS.ReservationSystem.dto.CreateReservationDto;
 import CSS.ReservationSystem.dto.GetReservationDto;
+import CSS.ReservationSystem.dto.ReservationRequestDto;
 import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.repository.ReservationRepository;
 import CSS.ReservationSystem.repository.RoomRepository;
@@ -20,6 +23,7 @@ public class ReservationServiceImpl implements ReservationService{
 
     private final ReservationRepository reservationRepository;
     private final MemberRepository memberRepository;
+    private final RoomRepository roomRepository;
 
     public List<GetReservationDto> getReservation(){
         List<Reservation> reservations= reservationRepository.findAll();
@@ -71,6 +75,20 @@ public class ReservationServiceImpl implements ReservationService{
             return newDto;
         }).collect(Collectors.toList());
 
+    }
+
+    public void createReservation(ReservationRequestDto reservationRequestDto){
+        Member member = memberRepository.findByid(reservationRequestDto.getMemberId());
+        Room room =  roomRepository.findByid(reservationRequestDto.getRoomId());
+        CreateReservationDto createReservationDto = new CreateReservationDto(
+                member,
+                room,
+                reservationRequestDto.getStartTime(),
+                reservationRequestDto.getEndTime(),
+                reservationRequestDto.getDate()
+        );
+
+        reservationRepository.save(createReservationDto.toEntity());
     }
 
 }
