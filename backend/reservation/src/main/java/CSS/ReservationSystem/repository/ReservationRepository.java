@@ -1,5 +1,6 @@
 package CSS.ReservationSystem.repository;
 
+import CSS.ReservationSystem.domain.Member;
 import CSS.ReservationSystem.domain.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,4 +12,6 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
     List<Reservation> findAll();
 
     List<Reservation> findAllByDate(LocalDate date);
+
+    List<Reservation> findAllByMember(Member member);
 }

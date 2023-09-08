@@ -34,4 +34,9 @@ public class ReservationController {
         reservationService.deleteReservation(id);
         return ResponseEntity.ok().body(HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/member/{id}") // id : member-id
+    private ResponseEntity<List<GetReservationDto>> getReservationByMember(@PathVariable Long id){
+        return ResponseEntity.ok().body(reservationService.getReservationByMember(id));
+    }
 }
