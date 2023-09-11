@@ -26,7 +26,7 @@ public class ReservationController {
     }
 
     @GetMapping("/date/{date}")
-    private ResponseEntity<List<GetReservationDto>> getReservationByDate(@PathVariable int date){
+    private ResponseEntity<List<GetReservationDto>> getReservationByDate(@PathVariable LocalDate date){
         return ResponseEntity.ok().body(reservationService.getReservationByDate(date));
     }
 
@@ -42,7 +42,7 @@ public class ReservationController {
     }
 
     @PostMapping("/create")
-    private ResponseEntity<HttpStatus> createReservation(@RequestBody ReservationRequestDto reservationRequestDto){
+    private ResponseEntity<HttpStatus> createReservation(@RequestBody ReservationRequestDto reservationRequestDto) throws Exception{
         reservationService.createReservation(reservationRequestDto);
         return ResponseEntity.ok().body(HttpStatus.CREATED);
     }

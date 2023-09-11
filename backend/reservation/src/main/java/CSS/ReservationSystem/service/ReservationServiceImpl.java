@@ -40,12 +40,8 @@ public class ReservationServiceImpl implements ReservationService{
 
     }
 
-    public List<GetReservationDto> getReservationByDate(int date){
-        int year = 2000+(date/10000);
-        int month = (date/100)%100;
-        int day = (date%100);
-        LocalDate target = LocalDate.of(year,month,day);
-        List<Reservation> reservations = reservationRepository.findAllByDate(target);
+    public List<GetReservationDto> getReservationByDate(LocalDate date){
+        List<Reservation> reservations = reservationRepository.findAllByDate(date);
         return reservations.stream().map(reservation ->{
             GetReservationDto newDto = new GetReservationDto();
             newDto.setReservationId(reservation.getId());
@@ -77,7 +73,7 @@ public class ReservationServiceImpl implements ReservationService{
 
     }
 
-    public void createReservation(ReservationRequestDto reservationRequestDto){
+    public void createReservation(ReservationRequestDto reservationRequestDto) throws Exception {
         Member member = memberRepository.findByid(reservationRequestDto.getMemberId());
         Room room =  roomRepository.findByid(reservationRequestDto.getRoomId());
         CreateReservationDto createReservationDto = new CreateReservationDto(
@@ -88,7 +84,31 @@ public class ReservationServiceImpl implements ReservationService{
                 reservationRequestDto.getDate()
         );
 
+        List<Reservation> reservs = reservationRepository.findAllByDateAndRoom(createReservationDto.getDate(),createReservationDto.getRoom());
+
+        if(reservs.isEmpty()){
+            reservationRepository.save(createReservationDto.toEntity());
+            return;
+        }
+        else{
+            for(int i=0;i<reservs.size();i+=1){
+                if(reservs.get(i).getStartTime().isBefore(createReservationDto.getStartTime())){
+                    if(reservs.get(i).getEndTime().isAfter(createReservationDto.getStartTime())){
+                        throw new Exception("Booked!!!!");
+                    }
+                }
+                else {
+                    if(reservs.get(i).getStartTime().isBefore(createReservationDto.getEndTime())) {
+                        throw new Exception("Booked!!!!");
+                    }
+                }
+            }
+
         reservationRepository.save(createReservationDto.toEntity());
+        return;
+        }
     }
+
+
 
 }

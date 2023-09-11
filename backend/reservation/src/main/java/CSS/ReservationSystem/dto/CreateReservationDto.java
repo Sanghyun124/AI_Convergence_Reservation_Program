@@ -5,12 +5,14 @@ import CSS.ReservationSystem.domain.Reservation;
 import CSS.ReservationSystem.domain.Room;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Setter
+@Getter
 @AllArgsConstructor
 public class CreateReservationDto {
     private Member member;

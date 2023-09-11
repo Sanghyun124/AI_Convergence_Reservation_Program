@@ -11,11 +11,11 @@ public interface ReservationService {
 
     public List<GetReservationDto> getReservation();
 
-    public List<GetReservationDto> getReservationByDate(int date);
+    public List<GetReservationDto> getReservationByDate(LocalDate date);
 
     public void deleteReservation(Long id);
 
     public List<GetReservationDto> getReservationByMember(Long id);
 
-    public void createReservation(ReservationRequestDto reservationRequestDto);
+    public void createReservation(ReservationRequestDto reservationRequestDto) throws Exception;
 }
