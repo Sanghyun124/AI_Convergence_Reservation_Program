@@ -74,6 +74,12 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     public void createReservation(ReservationRequestDto reservationRequestDto) throws Exception {
+        if(reservationRequestDto.getDate().getMonthValue()==LocalDate.now().getMonthValue()
+                || reservationRequestDto.getDate().getMonthValue()==(LocalDate.now().getMonthValue()+1)){}
+        else{
+            throw new Exception("Check the month of your Reservation!");
+        }
+
         Member member = memberRepository.findByid(reservationRequestDto.getMemberId());
         Room room =  roomRepository.findByid(reservationRequestDto.getRoomId());
         CreateReservationDto createReservationDto = new CreateReservationDto(
