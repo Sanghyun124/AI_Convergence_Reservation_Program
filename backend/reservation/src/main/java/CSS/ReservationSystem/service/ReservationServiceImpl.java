@@ -2,7 +2,10 @@ package CSS.ReservationSystem.service;
 
 import CSS.ReservationSystem.domain.Member;
 import CSS.ReservationSystem.domain.Reservation;
+import CSS.ReservationSystem.domain.Room;
+import CSS.ReservationSystem.dto.CreateReservationDto;
 import CSS.ReservationSystem.dto.GetReservationDto;
+import CSS.ReservationSystem.dto.ReservationRequestDto;
 import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.repository.ReservationRepository;
 import CSS.ReservationSystem.repository.RoomRepository;
@@ -10,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +24,7 @@ public class ReservationServiceImpl implements ReservationService{
 
     private final ReservationRepository reservationRepository;
     private final MemberRepository memberRepository;
+    private final RoomRepository roomRepository;
 
     public List<GetReservationDto> getReservation(){
         List<Reservation> reservations= reservationRepository.findAll();
@@ -36,12 +41,8 @@ public class ReservationServiceImpl implements ReservationService{
 
     }
 
-    public List<GetReservationDto> getReservationByDate(int date){
-        int year = 2000+(date/10000);
-        int month = (date/100)%100;
-        int day = (date%100);
-        LocalDate target = LocalDate.of(year,month,day);
-        List<Reservation> reservations = reservationRepository.findAllByDate(target);
+    public List<GetReservationDto> getReservationByDate(LocalDate date){
+        List<Reservation> reservations = reservationRepository.findAllByDate(date);
         return reservations.stream().map(reservation ->{
             GetReservationDto newDto = new GetReservationDto();
             newDto.setReservationId(reservation.getId());
@@ -72,5 +73,74 @@ public class ReservationServiceImpl implements ReservationService{
         }).collect(Collectors.toList());
 
     }
+
+    public void createReservation(ReservationRequestDto reservationRequestDto) throws Exception {
+        if(reservationRequestDto.getDate().getMonthValue()==LocalDate.now().getMonthValue()
+                || reservationRequestDto.getDate().getMonthValue()==(LocalDate.now().getMonthValue()+1)){}
+        else{
+            throw new Exception("Check the month of your Reservation!");
+        }
+
+        if(ChronoUnit.MINUTES.between(reservationRequestDto.getStartTime(),reservationRequestDto.getEndTime())>120){
+            throw new Exception("Check your time if your reservation time is over 2hours");
+        }
+
+        Member member = memberRepository.findByid(reservationRequestDto.getMemberId());
+
+
+        LocalDate date = reservationRequestDto.getDate();
+        LocalDate start=date;
+        LocalDate end=date;
+        if(date.getDayOfWeek().getValue()<7){
+            start=date.minusDays(reservationRequestDto.getDate().getDayOfWeek().getValue());
+        }
+        if(date.getDayOfWeek().getValue()==7){
+            end=date.plusDays(6);
+        }
+        else{
+            end=date.plusDays(6-date.getDayOfWeek().getValue());
+        }
+
+        List<Reservation> reservationsByMemberAndDate =reservationRepository.findAllByMemberAndDateBetween(member,start,end);
+
+        if(reservationsByMemberAndDate.size()>=2){
+            throw new Exception("Check your reservations if your reservation is 2 times over a week");
+        }
+
+        Room room =  roomRepository.findByid(reservationRequestDto.getRoomId());
+        CreateReservationDto createReservationDto = new CreateReservationDto(
+                member,
+                room,
+                reservationRequestDto.getStartTime(),
+                reservationRequestDto.getEndTime(),
+                reservationRequestDto.getDate()
+        );
+
+        List<Reservation> reservs = reservationRepository.findAllByDateAndRoom(createReservationDto.getDate(),createReservationDto.getRoom());
+
+        if(reservs.isEmpty()){
+            reservationRepository.save(createReservationDto.toEntity());
+            return;
+        }
+        else{
+            for(int i=0;i<reservs.size();i+=1){
+                if(reservs.get(i).getStartTime().isBefore(createReservationDto.getStartTime())){
+                    if(reservs.get(i).getEndTime().isAfter(createReservationDto.getStartTime())){
+                        throw new Exception("Booked!!!!");
+                    }
+                }
+                else {
+                    if(reservs.get(i).getStartTime().isBefore(createReservationDto.getEndTime())) {
+                        throw new Exception("Booked!!!!");
+                    }
+                }
+            }
+
+        reservationRepository.save(createReservationDto.toEntity());
+        return;
+        }
+    }
+
+
 
 }
