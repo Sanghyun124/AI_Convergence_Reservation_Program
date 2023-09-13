@@ -17,4 +17,6 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
     List<Reservation> findAllByMember(Member member);
 
     List<Reservation> findAllByDateAndRoom(LocalDate date, Room room);
+
+    List<Reservation> findAllByMemberAndDateBetween(Member member,LocalDate start, LocalDate end);
 }

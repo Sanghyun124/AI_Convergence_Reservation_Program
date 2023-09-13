@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,7 +81,32 @@ public class ReservationServiceImpl implements ReservationService{
             throw new Exception("Check the month of your Reservation!");
         }
 
+        if(ChronoUnit.MINUTES.between(reservationRequestDto.getStartTime(),reservationRequestDto.getEndTime())>120){
+            throw new Exception("Check your time if your reservation time is over 2hours");
+        }
+
         Member member = memberRepository.findByid(reservationRequestDto.getMemberId());
+
+
+        LocalDate date = reservationRequestDto.getDate();
+        LocalDate start=date;
+        LocalDate end=date;
+        if(date.getDayOfWeek().getValue()<7){
+            start=date.minusDays(reservationRequestDto.getDate().getDayOfWeek().getValue());
+        }
+        if(date.getDayOfWeek().getValue()==7){
+            end=date.plusDays(6);
+        }
+        else{
+            end=date.plusDays(6-date.getDayOfWeek().getValue());
+        }
+
+        List<Reservation> reservationsByMemberAndDate =reservationRepository.findAllByMemberAndDateBetween(member,start,end);
+
+        if(reservationsByMemberAndDate.size()>=2){
+            throw new Exception("Check your reservations if your reservation is 2 times over a week");
+        }
+
         Room room =  roomRepository.findByid(reservationRequestDto.getRoomId());
         CreateReservationDto createReservationDto = new CreateReservationDto(
                 member,
