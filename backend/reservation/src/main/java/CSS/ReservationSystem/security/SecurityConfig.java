@@ -50,8 +50,7 @@ public class SecurityConfig {
                 .and()
                 // 조건별 요청 허용/제한 설정
                 .authorizeRequests()
-                .antMatchers("/swagger-ui.html/**").permitAll()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui/index.html", "/swagger-ui.html","/webjars/**", "/swagger/**", "/favicon.ico").permitAll()
                 .antMatchers("/api/member/admin/**").hasRole("ADMIN") // /admin으로 시작하는 요청은 ADMIN 권한이 있는 유저에게만 허용
                 .anyRequest().denyAll()
                 .and()
