@@ -1,5 +1,6 @@
 package CSS.ReservationSystem.domain;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,11 +18,11 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int studentId;
-
-    private String name;
+    private Integer studentId;
 
     private String password;
+
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private Role role;
