@@ -50,7 +50,7 @@ public class MemberServiceImpl implements MemberService {
                 .name(member.getName())
                 .role(member.getRole())
                 .email(member.getEmail())
-                .token(jwtTokenProvider.createToken(member.getStudentId(), roles))
+                .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()), roles))
                 .build();
     }
 }

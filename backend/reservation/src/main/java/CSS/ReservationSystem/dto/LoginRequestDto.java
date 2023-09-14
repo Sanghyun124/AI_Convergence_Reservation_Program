@@ -10,10 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 public class LoginRequestDto {
 
-    private String studentId;
+    private Integer studentId;
 
     private String password;
-
-    private Role role;
 
 }

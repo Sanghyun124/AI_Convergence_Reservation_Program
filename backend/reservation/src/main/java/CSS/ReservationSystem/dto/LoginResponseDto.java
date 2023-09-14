@@ -12,7 +12,7 @@ public class LoginResponseDto {
 
     private Long id;
 
-    private String studentId;
+    private Integer studentId;
 
     private String name;
 
