@@ -1,7 +1,5 @@
 package CSS.ReservationSystem.dto;
 
-import CSS.ReservationSystem.domain.Role;
-import com.sun.istack.NotNull;
 import lombok.*;
 
 @Getter
