@@ -1,9 +1,8 @@
 package CSS.ReservationSystem.service;
 
-import CSS.ReservationSystem.dto.GetUserDto;
-import CSS.ReservationSystem.dto.LoginRequestDto;
-import CSS.ReservationSystem.dto.LoginResponseDto;
-import CSS.ReservationSystem.dto.UpdatePwRequestDto;
+import CSS.ReservationSystem.dto.*;
+
+import java.util.List;
 
 public interface MemberService {
 
@@ -12,4 +11,6 @@ public interface MemberService {
     public LoginResponseDto login(LoginRequestDto request) throws Exception;
 
     public Boolean updatePw(UpdatePwRequestDto request, Long id) throws Exception;
+
+    public List<GetAllMemberDto> getAllMember() throws Exception;
 }

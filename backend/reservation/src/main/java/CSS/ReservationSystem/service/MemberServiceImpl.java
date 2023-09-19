@@ -1,10 +1,7 @@
 package CSS.ReservationSystem.service;
 
 import CSS.ReservationSystem.domain.Member;
-import CSS.ReservationSystem.dto.GetUserDto;
-import CSS.ReservationSystem.dto.LoginRequestDto;
-import CSS.ReservationSystem.dto.LoginResponseDto;
-import CSS.ReservationSystem.dto.UpdatePwRequestDto;
+import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,5 +70,22 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         return true;
+    }
+
+    @Override
+    public List<GetAllMemberDto> getAllMember() throws Exception {
+        List<Member> members = memberRepository.findAll();
+
+        return members.stream().map(member -> {
+            GetAllMemberDto newDto= new GetAllMemberDto();
+
+            newDto.setId(member.getId());
+            newDto.setStudentId(member.getStudentId());
+            newDto.setName(member.getName());
+            newDto.setRole(member.getRole());
+            newDto.setEmail(member.getEmail());
+
+            return newDto;
+        }).collect(Collectors.toList());
     }
 }
