@@ -1,5 +1,7 @@
-package CSS.ReservationSystem.security;
+package CSS.ReservationSystem.configuration;
 
+import CSS.ReservationSystem.security.JwtAuthenticationFilter;
+import CSS.ReservationSystem.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
