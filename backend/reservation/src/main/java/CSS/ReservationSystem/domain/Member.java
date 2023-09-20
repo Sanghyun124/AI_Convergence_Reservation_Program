@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,5 +30,10 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
 }
 

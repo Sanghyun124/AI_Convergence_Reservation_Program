@@ -23,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public GetUserDto getUserNameById(Long id) throws Exception {
+    public GetUserDto getUserNameById(Long id) {
         Member member = memberRepository.findByid(id);
 
         GetUserDto newDto = new GetUserDto();
@@ -46,10 +46,6 @@ public class MemberServiceImpl implements MemberService {
 
         return LoginResponseDto.builder()
                 .id(member.getId())
-                .studentId(member.getStudentId())
-                .name(member.getName())
-                .role(member.getRole())
-                .email(member.getEmail())
                 .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()), roles))
                 .build();
     }
@@ -66,18 +62,18 @@ public class MemberServiceImpl implements MemberService {
             throw new BadCredentialsException("Password Does Not Same");
         }
 
-        member.setPassword(passwordEncoder.encode(request.getNewPw()));
+        member.updatePassword(passwordEncoder.encode(request.getNewPw()));
         memberRepository.save(member);
 
         return true;
     }
 
     @Override
-    public List<GetAllMemberDto> getAllMember() throws Exception {
+    public List<GetAllMemberDto> getAllMember() {
         List<Member> members = memberRepository.findAll();
 
         return members.stream().map(member -> {
-            GetAllMemberDto newDto= new GetAllMemberDto();
+            GetAllMemberDto newDto = new GetAllMemberDto();
 
             newDto.setId(member.getId());
             newDto.setStudentId(member.getStudentId());

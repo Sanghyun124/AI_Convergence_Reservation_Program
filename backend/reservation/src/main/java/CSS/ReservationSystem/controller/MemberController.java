@@ -17,7 +17,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{id}") // id : member-id
-    private ResponseEntity<GetUserDto> getUserById(@PathVariable Long id) throws Exception {
+    private ResponseEntity<GetUserDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok().body(memberService.getUserNameById(id));
     }
 
@@ -41,7 +41,7 @@ public class MemberController {
     }
 
     @GetMapping("")
-    private ResponseEntity<List<GetAllMemberDto>> getAllMember() throws Exception {
+    private ResponseEntity<List<GetAllMemberDto>> getAllMember() {
         return ResponseEntity.ok().body(memberService.getAllMember());
     }
 }
