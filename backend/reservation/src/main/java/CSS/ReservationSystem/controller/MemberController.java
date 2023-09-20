@@ -1,14 +1,13 @@
 package CSS.ReservationSystem.controller;
 
-import CSS.ReservationSystem.dto.GetUserDto;
-import CSS.ReservationSystem.dto.LoginRequestDto;
-import CSS.ReservationSystem.dto.LoginResponseDto;
-import CSS.ReservationSystem.dto.UpdatePwRequestDto;
+import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{id}") // id : member-id
-    private ResponseEntity<GetUserDto> getUserById(@PathVariable Long id) throws Exception {
+    private ResponseEntity<GetUserDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok().body(memberService.getUserNameById(id));
     }
 
@@ -39,5 +38,10 @@ public class MemberController {
         }
         
         return ResponseEntity.ok().body(tf);
+    }
+
+    @GetMapping("")
+    private ResponseEntity<List<GetAllMemberDto>> getAllMember() {
+        return ResponseEntity.ok().body(memberService.getAllMember());
     }
 }

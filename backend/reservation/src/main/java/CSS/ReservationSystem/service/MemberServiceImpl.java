@@ -1,10 +1,7 @@
 package CSS.ReservationSystem.service;
 
 import CSS.ReservationSystem.domain.Member;
-import CSS.ReservationSystem.dto.GetUserDto;
-import CSS.ReservationSystem.dto.LoginRequestDto;
-import CSS.ReservationSystem.dto.LoginResponseDto;
-import CSS.ReservationSystem.dto.UpdatePwRequestDto;
+import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public GetUserDto getUserNameById(Long id) throws Exception {
+    public GetUserDto getUserNameById(Long id) {
         Member member = memberRepository.findByid(id);
 
         GetUserDto newDto = new GetUserDto();
@@ -48,10 +46,6 @@ public class MemberServiceImpl implements MemberService {
 
         return LoginResponseDto.builder()
                 .id(member.getId())
-                .studentId(member.getStudentId())
-                .name(member.getName())
-                .role(member.getRole())
-                .email(member.getEmail())
                 .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()), roles))
                 .build();
     }
@@ -68,9 +62,26 @@ public class MemberServiceImpl implements MemberService {
             throw new BadCredentialsException("Password Does Not Same");
         }
 
-        member.setPassword(passwordEncoder.encode(request.getNewPw()));
+        member.updatePassword(passwordEncoder.encode(request.getNewPw()));
         memberRepository.save(member);
 
         return true;
+    }
+
+    @Override
+    public List<GetAllMemberDto> getAllMember() {
+        List<Member> members = memberRepository.findAll();
+
+        return members.stream().map(member -> {
+            GetAllMemberDto newDto = new GetAllMemberDto();
+
+            newDto.setId(member.getId());
+            newDto.setStudentId(member.getStudentId());
+            newDto.setName(member.getName());
+            newDto.setRole(member.getRole());
+            newDto.setEmail(member.getEmail());
+
+            return newDto;
+        }).collect(Collectors.toList());
     }
 }
