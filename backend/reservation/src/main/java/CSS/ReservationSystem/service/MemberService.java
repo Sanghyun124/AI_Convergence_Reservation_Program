@@ -13,4 +13,6 @@ public interface MemberService {
     public Boolean updatePw(UpdatePwRequestDto request, Long id) throws Exception;
 
     public List<GetAllMemberDto> getAllMember();
+
+    public void addMember(MemberRequestDto request) throws Exception;
 }

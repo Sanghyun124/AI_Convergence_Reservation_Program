@@ -44,4 +44,10 @@ public class MemberController {
     private ResponseEntity<List<GetAllMemberDto>> getAllMember() {
         return ResponseEntity.ok().body(memberService.getAllMember());
     }
+
+    @PostMapping("/add")
+    private ResponseEntity<HttpStatus> addMember(@RequestBody MemberRequestDto request) throws Exception {
+        memberService.addMember(request);
+        return ResponseEntity.ok().body(HttpStatus.CREATED);
+    }
 }
