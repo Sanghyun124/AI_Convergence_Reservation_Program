@@ -84,4 +84,17 @@ public class MemberServiceImpl implements MemberService {
             return newDto;
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public void addMember(MemberRequestDto request) throws Exception {
+         Member member = Member.builder()
+                 .studentId(request.getStudentId())
+                 .password(passwordEncoder.encode(request.getPassword()))
+                 .name(request.getName())
+                 .role(request.getRole())
+                 .email(request.getEmail())
+                 .build();
+
+         memberRepository.save(member);
+    }
 }
