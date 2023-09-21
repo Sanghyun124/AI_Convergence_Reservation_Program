@@ -97,4 +97,9 @@ public class MemberServiceImpl implements MemberService {
 
          memberRepository.save(member);
     }
+
+    @Override
+    public void deleteMember(Long id) throws Exception {
+        memberRepository.deleteById(id);
+    }
 }

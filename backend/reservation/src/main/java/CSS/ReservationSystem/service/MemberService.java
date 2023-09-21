@@ -15,4 +15,6 @@ public interface MemberService {
     public List<GetAllMemberDto> getAllMember();
 
     public void addMember(MemberRequestDto request) throws Exception;
+
+    public void deleteMember(Long id) throws Exception;
 }
