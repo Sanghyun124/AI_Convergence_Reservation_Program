@@ -50,4 +50,10 @@ public class MemberController {
         memberService.addMember(request);
         return ResponseEntity.ok().body(HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity<HttpStatus> deleteMember(@PathVariable Long id) throws Exception {
+        memberService.deleteMember(id);
+        return ResponseEntity.ok().body(HttpStatus.OK);
+    }
 }
