@@ -31,8 +31,24 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
+    public void updateStudentId(Integer studentId) {
+        this.studentId = studentId;
+    }
+
     public void updatePassword(String password) {
         this.password = password;
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateRole(Role role) {
+        this.role = role;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
     }
 
 }

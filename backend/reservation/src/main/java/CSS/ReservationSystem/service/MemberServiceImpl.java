@@ -99,6 +99,35 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void updateMember(MemberRequestDto request, Long id) throws Exception {
+        Member member = memberRepository.findByid(id);
+
+        if(!Objects.nonNull(request.getStudentId())) {
+            throw new NullPointerException("Input Student ID is Null");
+        }
+        if(request.getPassword() == null || request.getPassword().isEmpty()) {
+            throw new NullPointerException("Input Password is Null");
+        }
+        if(request.getName() == null || request.getName().isEmpty()) {
+            throw new NullPointerException("Input Name is Null");
+        }
+        if(request.getRole() == null) {
+            throw new NullPointerException("Input Role is Null or Invalid Value");
+        }
+        if(request.getEmail() == null || request.getEmail().isEmpty()) {
+            throw new NullPointerException("Email is Null");
+        }
+
+        member.updateStudentId(request.getStudentId());
+        member.updatePassword(passwordEncoder.encode(request.getPassword()));
+        member.updateName(request.getName());
+        member.updateRole(request.getRole());
+        member.updateEmail(request.getEmail());
+
+        memberRepository.save(member);
+    }
+
+    @Override
     public void deleteMember(Long id) throws Exception {
         memberRepository.deleteById(id);
     }
