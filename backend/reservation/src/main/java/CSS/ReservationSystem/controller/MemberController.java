@@ -32,7 +32,7 @@ public class MemberController {
         
         try {
             tf = memberService.updatePw(request, id);
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
             tf = false;
         }
@@ -51,9 +51,20 @@ public class MemberController {
         return ResponseEntity.ok().body(HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    private ResponseEntity<HttpStatus> updateMember(@RequestBody MemberRequestDto request, @PathVariable Long id) throws Exception {
+        try {
+            memberService.updateMember(request, id);
+            return ResponseEntity.ok().body(HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.ok().body(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DeleteMapping("/{id}")
     private ResponseEntity<HttpStatus> deleteMember(@PathVariable Long id) throws Exception {
         memberService.deleteMember(id);
-        return ResponseEntity.ok().body(HttpStatus.OK);
+        return ResponseEntity.ok().body(HttpStatus.NO_CONTENT);
     }
 }

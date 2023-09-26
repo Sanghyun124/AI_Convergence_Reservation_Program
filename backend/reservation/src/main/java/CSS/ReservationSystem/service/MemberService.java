@@ -16,5 +16,7 @@ public interface MemberService {
 
     public void addMember(MemberRequestDto request) throws Exception;
 
+    public void updateMember(MemberRequestDto request, Long id) throws Exception;
+
     public void deleteMember(Long id) throws Exception;
 }
