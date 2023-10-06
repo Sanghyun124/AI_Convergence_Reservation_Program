@@ -1,6 +1,7 @@
 package CSS.ReservationSystem.service;
 
 import CSS.ReservationSystem.dto.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface MemberService {
     public void updateMember(MemberRequestDto request, Long id) throws Exception;
 
     public void deleteMember(Long id) throws Exception;
+
+    public List<Integer> registerMemberList(List<MemberRequestDto> requests) throws Exception;
 }
