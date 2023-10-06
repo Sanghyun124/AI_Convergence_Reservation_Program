@@ -5,6 +5,8 @@ import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -130,5 +133,30 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteMember(Long id) throws Exception {
         memberRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Integer> registerMemberList(List<MemberRequestDto> requests) {
+        List<Integer> duplicatedList = new ArrayList<>();
+
+        for (MemberRequestDto request : requests) {
+            Optional<Member> duplicatedMember = memberRepository.findBystudentId(request.getStudentId());
+
+            if (duplicatedMember.isEmpty()) {
+                Member member = Member.builder()
+                        .studentId(request.getStudentId())
+                        .password(passwordEncoder.encode(request.getPassword()))
+                        .name(request.getName())
+                        .role(request.getRole())
+                        .email(request.getEmail())
+                        .build();
+
+                memberRepository.save(member);
+            } else {
+                duplicatedList.add(duplicatedMember.get().getStudentId());
+            }
+        }
+
+        return duplicatedList;
     }
 }
