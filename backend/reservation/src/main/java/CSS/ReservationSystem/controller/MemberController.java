@@ -71,9 +71,9 @@ public class MemberController {
     }
 
     @ApiOperation(value = "멤버 삭제", notes = "해당 멤버 삭제")
-    @DeleteMapping("/{id}")
-    private ResponseEntity<HttpStatus> deleteMember(@PathVariable Long id) throws Exception {
-        memberService.deleteMember(id);
+    @DeleteMapping("")
+    private ResponseEntity<HttpStatus> deleteMember(@RequestBody List<Long> ids) throws Exception {
+        memberService.deleteMember(ids);
         return ResponseEntity.ok().body(HttpStatus.NO_CONTENT);
     }
 

@@ -19,7 +19,7 @@ public interface MemberService {
 
     public void updateMember(MemberRequestDto request, Long id) throws Exception;
 
-    public void deleteMember(Long id) throws Exception;
+    public void deleteMember(List<Long> ids) throws Exception;
 
     public List<Integer> registerMemberList(List<MemberRequestDto> requests) throws Exception;
 }
