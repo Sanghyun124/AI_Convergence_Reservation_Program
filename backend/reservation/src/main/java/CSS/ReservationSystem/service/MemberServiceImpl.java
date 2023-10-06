@@ -131,8 +131,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void deleteMember(Long id) throws Exception {
-        memberRepository.deleteById(id);
+    public void deleteMember(List<Long> ids) throws Exception {
+        for(Long id : ids) {
+            memberRepository.deleteById(id);
+        }
     }
 
     @Override
