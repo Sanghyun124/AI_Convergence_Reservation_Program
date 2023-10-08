@@ -45,6 +45,21 @@ public class MemberController {
         return ResponseEntity.ok().body(tf);
     }
 
+    @ApiOperation(value = "비밀번호 찾기", notes = "임시 비밀번호 발급")
+    @PostMapping("/password")
+    private ResponseEntity<String> findPassword(@RequestBody findPwRequestDto request) throws Exception {
+        String status;
+
+        try {
+            status = memberService.findPw(request);
+        } catch(Exception e) {
+            e.printStackTrace();
+            status = e.getMessage();
+        }
+
+        return ResponseEntity.ok().body(status);
+    }
+
     @ApiOperation(value = "멤버 정보", notes = "전체 멤버 정보 가져오기")
     @GetMapping("")
     private ResponseEntity<List<GetAllMemberDto>> getAllMember() {
