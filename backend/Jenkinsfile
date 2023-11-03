@@ -1,14 +1,11 @@
 pipeline {
     agent any
-    
+
     stages {
-        
-        stage('github-clone') {
+        stage('github Clone') {
             steps {
-                git branch: 'main', credentialsId: 'github_token', url: 'https://github.com/Sanghyun124/AI_Convergence_Reservation_Program'
+               git credentialsId: 'cloush24', url: 'https://github.com/Sanghyun124/AI_Convergence_Reservation_Program.git'
             }
         }
-        
-   		// stage...
-   	}
+    }
 }
