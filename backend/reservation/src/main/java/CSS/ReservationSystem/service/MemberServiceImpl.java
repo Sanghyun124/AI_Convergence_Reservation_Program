@@ -97,7 +97,7 @@ public class MemberServiceImpl implements MemberService {
         findPwResponseDto newDto = findPwResponseDto.builder()
                 .receiveAddress(request.getEmail())
                 .mailTitle("AI융합학부 세미나실 예약 시스템 임시 비밀번호 발급")
-                .mailContent("안녕하세요.\nAI융합학부 세미나실 예약 시스템 임시 비밀번호 발급 관련 이메일입니다.\n\n회원님의 임시 비밀번호는 " +
+                .mailContent("안녕하세요. " + member.getName() + "님.\nAI융합학부 세미나실 예약 시스템 임시 비밀번호 발급 관련 이메일입니다.\n\n회원님의 임시 비밀번호는 " +
                         tempPw + " 입니다.\n\n임시 비밀번호로 로그인 후 꼭 비밀번호 변경하시기 바랍니다.")
                 .build();
 
