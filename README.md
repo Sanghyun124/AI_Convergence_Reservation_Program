@@ -3,7 +3,6 @@
   숭실대학교 AI융합학부 세미나실 예약을 위한 웹 어플리케이션입니다.<br>
   현재 아직 개발 중에 있습니다.
 </div>
-<p align="center"><img src="https://img.freepik.com/free-vector/appointment-booking-with-calendar_52683-39831.jpg?w=1060&t=st=1696960629~exp=1696961229~hmac=f7b47ddf5aed11fa5f4591190bef3d3c042b0b90e5534fadf7311921817a1d77" width="462" height="313"></p>
 
 
 ## | 🔍 개발 배경
