@@ -4,7 +4,6 @@ import CSS.ReservationSystem.domain.Member;
 import CSS.ReservationSystem.domain.Reservation;
 import CSS.ReservationSystem.domain.Room;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

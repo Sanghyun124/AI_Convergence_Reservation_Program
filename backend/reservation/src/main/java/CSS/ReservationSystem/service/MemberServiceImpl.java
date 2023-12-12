@@ -104,9 +104,9 @@ public class MemberServiceImpl implements MemberService {
         // send e-mail
         SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setFrom("changhoon.kim204@gmail.com");
+        message.setFrom("reservemailsender@gmail.com");
         message.setTo(newDto.getReceiveAddress());
-        message.setReplyTo("changhoon.kim204@gmail.com");
+        message.setReplyTo("reservemailsender@gmail.com");
         message.setSubject(newDto.getMailTitle());
         message.setText(newDto.getMailContent());
 
