@@ -1,6 +1,5 @@
 package CSS.ReservationSystem.domain;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
