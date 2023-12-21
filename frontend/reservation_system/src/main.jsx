@@ -14,7 +14,7 @@ const router = createBrowserRouter([
   { path: "/login", element: <Root />, errorElement: <ErrorPage /> },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Header />
     <RouterProvider router={router} />
