@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from "axios";
-import InputComponent from '../components/InputComponent';
+import LoginComponent from '../components/LoginComponent';
 
 
 const LoginPage = () => {
@@ -39,9 +39,9 @@ const LoginPage = () => {
 
         axios(option)
             .then((response) => {
-                alert("로그인 성공");
                 console.log(response);
-                document.location.replace("/");
+                localStorage.setItem("isLogin", true);
+                document.location.replace("/main");
             })
             .catch((error) => {
                 alert("아이디가 존재하지 않거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.");
@@ -52,12 +52,12 @@ const LoginPage = () => {
 
     return (
         <div>
-            <InputComponent
+            <LoginComponent
                 handleOnKey={handleOnKeyPress}
                 handleStudentId={handleStudentIdChange}
                 handlePassword={handlePasswordChange}
-                handleClick={handleLoginButtonClick}
-            ></InputComponent>
+                handleLoginClick={handleLoginButtonClick}
+            ></LoginComponent>
         </div>
     )
 }
