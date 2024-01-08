@@ -46,17 +46,13 @@ public class MemberController {
 
     @ApiOperation(value = "비밀번호 찾기", notes = "임시 비밀번호 발급")
     @PostMapping("/password")
-    private ResponseEntity<String> findPassword(@RequestBody findPwRequestDto request) throws Exception {
-        String status;
-
+    private ResponseEntity<?> findPassword(@RequestBody findPwRequestDto request) throws Exception {
         try {
-            status = memberService.findPw(request);
+            return new ResponseEntity<>(memberService.findPw(request), HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
-            status = e.getMessage();
+            return new ResponseEntity<>("Invalid Account Information or Email Does Not Match", HttpStatus.BAD_REQUEST);
         }
-
-        return ResponseEntity.ok().body(status);
     }
 
     @ApiOperation(value = "멤버 정보", notes = "전체 멤버 정보 가져오기")

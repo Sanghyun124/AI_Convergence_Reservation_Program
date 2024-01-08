@@ -7,6 +7,12 @@ const LoginPage = () => {
     const [studentId, setStudentId] = useState("");
     const [password, setPassword] = useState("");
 
+    const handleOnKeyPress = (e) => {
+        if(e.key === "Enter") {
+            handleLoginButtonClick();
+        }
+    };
+
     const handleStudentIdChange = (e) => {
         console.log("학번 입력");
         const { value } = e.target;
@@ -18,12 +24,6 @@ const LoginPage = () => {
         const { value } = e.target;
         setPassword(value);
     };
-
-    const handleOnKeyPress = (e) => {
-        if(e.key === "Enter") {
-            handleLoginButtonClick();
-        }
-    }
 
     const handleLoginButtonClick = () => {
         // console.log("버튼 누름");
@@ -48,7 +48,11 @@ const LoginPage = () => {
                 console.log(error);
             })
 
-    }
+    };
+
+    const handleFindPwButtonClick = () => {
+        document.location.href = "/findpw";
+    };
 
     return (
         <div>
@@ -57,6 +61,7 @@ const LoginPage = () => {
                 handleStudentId={handleStudentIdChange}
                 handlePassword={handlePasswordChange}
                 handleLoginClick={handleLoginButtonClick}
+                handleFindPwClick={handleFindPwButtonClick}
             ></LoginComponent>
         </div>
     )
