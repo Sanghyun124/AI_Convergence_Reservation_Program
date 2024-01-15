@@ -24,7 +24,7 @@ const Button2 = {
     marginLeft: 10,
 }
 
-const InputComponent = ({ handleOnKey, handleStudentId, handlePassword, handleLoginClick, handleFindPwClick }) => {
+const LoginComponent = ({ handleOnKey, handleStudentId, handlePassword, handleLoginClick, handleFindPwClick }) => {
     return (
         <div style={Div}>
             <form style={Form} onKeyDown={handleOnKey}>
@@ -45,4 +45,4 @@ const InputComponent = ({ handleOnKey, handleStudentId, handlePassword, handleLo
     )
 }
 
-export default InputComponent
+export default LoginComponent
