@@ -41,7 +41,8 @@ const LoginPage = () => {
             .then((response) => {
                 console.log(response);
                 localStorage.setItem("isLogin", true);
-                document.location.replace("/main");
+                // document.location.replace("/main");
+                document.location.replace("/");
             })
             .catch((error) => {
                 alert("아이디가 존재하지 않거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.");
