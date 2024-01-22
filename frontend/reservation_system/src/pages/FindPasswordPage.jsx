@@ -1,16 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import IsLogin from '../components/IsLogin'
 import FindPwComponent from '../components/FindPwComponent'
 
 const FindPasswordPage = () => {
-    useEffect(() => {
-        if(IsLogin()) {
-            document.location.replace("/main");
-        }
-    }, []);
-
     const [studentId, setStudentId] = useState("");
     const [email, setEmail] = useState("");
 
@@ -33,10 +26,6 @@ const FindPasswordPage = () => {
     };
 
     const handleFindPwButtonClick = () => {
-        // console.log("버튼 누름");
-        // console.log(studentId);
-        // console.log(email);
-
         const option = {
             method: "POST",
             url: "/api/member/password",

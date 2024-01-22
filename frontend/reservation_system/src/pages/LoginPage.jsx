@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import axios from "axios";
 import LoginComponent from '../components/LoginComponent';
+import { useRecoilState } from "recoil";
+import { userInfoState } from '../utils/recoilState';
 
 
 const LoginPage = () => {
+    const [, setIsLogin] = useRecoilState(userInfoState);
+
     const [studentId, setStudentId] = useState("");
     const [password, setPassword] = useState("");
 
@@ -40,8 +44,7 @@ const LoginPage = () => {
         axios(option)
             .then((response) => {
                 console.log(response);
-                localStorage.setItem("isLogin", true);
-                // document.location.replace("/main");
+                setIsLogin(true);
                 document.location.replace("/");
             })
             .catch((error) => {
