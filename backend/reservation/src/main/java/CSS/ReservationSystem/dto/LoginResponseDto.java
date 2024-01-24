@@ -1,5 +1,6 @@
 package CSS.ReservationSystem.dto;
 
+import CSS.ReservationSystem.domain.Role;
 import lombok.*;
 
 @Getter
@@ -9,6 +10,8 @@ import lombok.*;
 public class LoginResponseDto {
 
     private Long id;
+
+    private Role role;
 
     private String token;
 

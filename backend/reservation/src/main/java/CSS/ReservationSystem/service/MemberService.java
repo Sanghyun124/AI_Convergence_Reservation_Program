@@ -2,15 +2,16 @@ package CSS.ReservationSystem.service;
 
 import CSS.ReservationSystem.dto.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface MemberService {
 
-    public GetUserDto getUserNameById(Long id);
+    public GetUserDto getUserNameById(Long id, HttpServletRequest request) throws Exception;
 
     public LoginResponseDto login(LoginRequestDto request) throws Exception;
 
-    public Boolean updatePw(UpdatePwRequestDto request, Long id) throws Exception;
+    public Boolean updatePw(UpdatePwRequestDto requestDto, Long id,HttpServletRequest request) throws Exception;
 
     public String findPw(findPwRequestDto request) throws Exception;
 

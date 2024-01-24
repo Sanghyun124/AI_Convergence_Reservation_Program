@@ -4,6 +4,7 @@ import CSS.ReservationSystem.domain.Member;
 import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.security.JwtTokenProvider;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.MailSender;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,8 +29,12 @@ public class MemberServiceImpl implements MemberService {
     private final MailSender mailSender;
 
     @Override
-    public GetUserDto getUserNameById(Long id) {
+    public GetUserDto getUserNameById(Long id, HttpServletRequest request) throws Exception {
         Member member = memberRepository.findByid(id);
+
+        if(!validateTokenMatch(member, request)) {
+            throw new Exception("Invalid Token");
+        }
 
         GetUserDto newDto = new GetUserDto();
         newDto.setUserName(member.getName());
@@ -45,28 +51,32 @@ public class MemberServiceImpl implements MemberService {
             throw new BadCredentialsException("Invalid Account Information.");
         }
 
-        List<String> roles = new ArrayList<>();
-        roles.add(member.getRole().value());
+        String role = member.getRole().value();
 
         return LoginResponseDto.builder()
                 .id(member.getId())
-                .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()), roles))
+                .role(member.getRole())
+                .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()), role))
                 .build();
     }
 
     @Override
-    public Boolean updatePw(UpdatePwRequestDto request, Long id) throws Exception {
+    public Boolean updatePw(UpdatePwRequestDto requestDto, Long id, HttpServletRequest request) throws Exception {
         Member member = memberRepository.findByid(id);
 
-        if(!passwordEncoder.matches(request.getCurrentPw(), member.getPassword())) {
+        if(!validateTokenMatch(member, request)) {
+            throw new Exception("Invalid Token");
+        }
+
+        if(!passwordEncoder.matches(requestDto.getCurrentPw(), member.getPassword())) {
             throw new BadCredentialsException("Current Password Mismatch");
         }
 
-        if(!Objects.equals(request.getNewPw(), request.getConfirmNewPw())) {
+        if(!Objects.equals(requestDto.getNewPw(), requestDto.getConfirmNewPw())) {
             throw new BadCredentialsException("Password Does Not Same");
         }
 
-        member.updatePassword(passwordEncoder.encode(request.getNewPw()));
+        member.updatePassword(passwordEncoder.encode(requestDto.getNewPw()));
         memberRepository.save(member);
 
         return true;
@@ -208,5 +218,24 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return duplicatedList;
+    }
+
+    public Boolean validateTokenMatch(Member member, HttpServletRequest request) {
+        try {
+            String token = jwtTokenProvider.resolveToken(request);
+
+            if(!token.substring(0, "BEARER ".length()).equalsIgnoreCase("BEARER ")) {
+                return false;
+            } else {
+                token = token.split(" ")[1].trim();
+            }
+
+            Claims claims = jwtTokenProvider.parseJWT(token);
+
+            // return true if match, return false if does not match
+            return Objects.equals(claims.getSubject(), String.valueOf(member.getStudentId()));
+        } catch(Exception e) {
+            return false;
+        }
     }
 }
