@@ -34,9 +34,9 @@ public class JwtTokenProvider {
     }
 
     // token 생성
-    public String createToken(String account, List<String> roles) {
+    public String createToken(String account, String role) {
         Claims claims = Jwts.claims().setSubject(account);
-        claims.put("roles", roles);
+        claims.put("role", role);
         Date now = new Date();
 
         return Jwts.builder()
@@ -77,6 +77,10 @@ public class JwtTokenProvider {
         } catch(Exception e) {
             return false;
         }
+    }
+
+    public Claims parseJWT(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
 }

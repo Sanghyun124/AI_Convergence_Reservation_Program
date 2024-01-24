@@ -4,6 +4,9 @@ import CSS.ReservationSystem.domain.Member;
 import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.security.JwtTokenProvider;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.MailSender;
@@ -11,6 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,8 +31,12 @@ public class MemberServiceImpl implements MemberService {
     private final MailSender mailSender;
 
     @Override
-    public GetUserDto getUserNameById(Long id) {
+    public GetUserDto getUserNameById(Long id, HttpServletRequest request) throws Exception {
         Member member = memberRepository.findByid(id);
+
+        if(!validateTokenMatch(member, request)) {
+            throw new Exception("Invalid Token");
+        }
 
         GetUserDto newDto = new GetUserDto();
         newDto.setUserName(member.getName());
@@ -45,12 +53,11 @@ public class MemberServiceImpl implements MemberService {
             throw new BadCredentialsException("Invalid Account Information.");
         }
 
-        List<String> roles = new ArrayList<>();
-        roles.add(member.getRole().value());
+        String role = member.getRole().value();
 
         return LoginResponseDto.builder()
                 .id(member.getId())
-                .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()), roles))
+                .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()), role))
                 .build();
     }
 
@@ -208,5 +215,24 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return duplicatedList;
+    }
+
+    public Boolean validateTokenMatch(Member member, HttpServletRequest request) {
+        try {
+            String token = jwtTokenProvider.resolveToken(request);
+
+            if(!token.substring(0, "BEARER ".length()).equalsIgnoreCase("BEARER ")) {
+                return false;
+            } else {
+                token = token.split(" ")[1].trim();
+            }
+
+            Claims claims = jwtTokenProvider.parseJWT(token);
+
+            // return true if match, return false if does not match
+            return Objects.equals(claims.getSubject(), String.valueOf(member.getStudentId()));
+        } catch(Exception e) {
+            return false;
+        }
     }
 }

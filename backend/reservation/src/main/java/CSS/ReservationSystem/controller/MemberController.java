@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -19,8 +20,13 @@ public class MemberController {
 
     @ApiOperation(value = "로그인 정보", notes = "해당 멤버의 이름 가져오기")
     @GetMapping("/{id}") // id : member-id
-    private ResponseEntity<GetUserDto> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(memberService.getUserNameById(id));
+    private ResponseEntity<?> getUserById(@PathVariable Long id, HttpServletRequest request) throws Exception {
+        try {
+            return new ResponseEntity<>(memberService.getUserNameById(id, request), HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Bad Request", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @ApiOperation(value = "로그인 요청", notes = "로그인 요청")
