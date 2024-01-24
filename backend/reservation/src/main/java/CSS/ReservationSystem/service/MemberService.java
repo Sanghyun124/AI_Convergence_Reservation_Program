@@ -11,7 +11,7 @@ public interface MemberService {
 
     public LoginResponseDto login(LoginRequestDto request) throws Exception;
 
-    public Boolean updatePw(UpdatePwRequestDto request, Long id) throws Exception;
+    public Boolean updatePw(UpdatePwRequestDto requestDto, Long id,HttpServletRequest request) throws Exception;
 
     public String findPw(findPwRequestDto request) throws Exception;
 

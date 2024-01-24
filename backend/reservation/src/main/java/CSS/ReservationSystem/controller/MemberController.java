@@ -4,6 +4,7 @@ import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/member")
 public class MemberController {
@@ -24,7 +26,8 @@ public class MemberController {
         try {
             return new ResponseEntity<>(memberService.getUserNameById(id, request), HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
+            log.error("Exception [Err_Msg]: {}", e.getMessage());
+            log.error("Exception [Err_Where]: {}", e.getStackTrace()[0]);
             return new ResponseEntity<>("Bad Request", HttpStatus.BAD_REQUEST);
         }
     }
@@ -37,13 +40,14 @@ public class MemberController {
 
     @ApiOperation(value = "비밀번호 변경", notes = "해당 멤버의 비밀번호 변경")
     @PutMapping("/password/{id}")
-    private ResponseEntity<Boolean> updatePassword(@RequestBody UpdatePwRequestDto request, @PathVariable Long id) throws Exception {
+    private ResponseEntity<Boolean> updatePassword(@RequestBody UpdatePwRequestDto requestDto, @PathVariable Long id, HttpServletRequest request) throws Exception {
         Boolean tf;
         
         try {
-            tf = memberService.updatePw(request, id);
+            tf = memberService.updatePw(requestDto, id, request);
         } catch(Exception e) {
-            e.printStackTrace();
+            log.error("Exception [Err_Msg]: {}", e.getMessage());
+            log.error("Exception [Err_Where]: {}", e.getStackTrace()[0]);
             tf = false;
         }
         
@@ -56,7 +60,8 @@ public class MemberController {
         try {
             return new ResponseEntity<>(memberService.findPw(request), HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
+            log.error("Exception [Err_Msg]: {}", e.getMessage());
+            log.error("Exception [Err_Where]: {}", e.getStackTrace()[0]);
             return new ResponseEntity<>("Invalid Account Information or Email Does Not Match", HttpStatus.BAD_REQUEST);
         }
     }
@@ -81,7 +86,8 @@ public class MemberController {
             memberService.updateMember(request, id);
             return ResponseEntity.ok().body(HttpStatus.OK);
         } catch(Exception e) {
-            e.printStackTrace();
+            log.error("Exception [Err_Msg]: {}", e.getMessage());
+            log.error("Exception [Err_Where]: {}", e.getStackTrace()[0]);
             return ResponseEntity.ok().body(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

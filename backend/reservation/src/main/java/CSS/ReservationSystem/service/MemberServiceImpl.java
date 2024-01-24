@@ -5,8 +5,6 @@ import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.repository.MemberRepository;
 import CSS.ReservationSystem.security.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.MailSender;
@@ -57,23 +55,28 @@ public class MemberServiceImpl implements MemberService {
 
         return LoginResponseDto.builder()
                 .id(member.getId())
+                .role(member.getRole())
                 .token(jwtTokenProvider.createToken(String.valueOf(member.getStudentId()), role))
                 .build();
     }
 
     @Override
-    public Boolean updatePw(UpdatePwRequestDto request, Long id) throws Exception {
+    public Boolean updatePw(UpdatePwRequestDto requestDto, Long id, HttpServletRequest request) throws Exception {
         Member member = memberRepository.findByid(id);
 
-        if(!passwordEncoder.matches(request.getCurrentPw(), member.getPassword())) {
+        if(!validateTokenMatch(member, request)) {
+            throw new Exception("Invalid Token");
+        }
+
+        if(!passwordEncoder.matches(requestDto.getCurrentPw(), member.getPassword())) {
             throw new BadCredentialsException("Current Password Mismatch");
         }
 
-        if(!Objects.equals(request.getNewPw(), request.getConfirmNewPw())) {
+        if(!Objects.equals(requestDto.getNewPw(), requestDto.getConfirmNewPw())) {
             throw new BadCredentialsException("Password Does Not Same");
         }
 
-        member.updatePassword(passwordEncoder.encode(request.getNewPw()));
+        member.updatePassword(passwordEncoder.encode(requestDto.getNewPw()));
         memberRepository.save(member);
 
         return true;
