@@ -3,6 +3,7 @@ import axios from "axios";
 import LoginComponent from '../components/LoginComponent';
 import { useRecoilState } from "recoil";
 import { userInfoState } from '../utils/recoilState';
+import secureLocalStorage from 'react-secure-storage';
 
 
 const LoginPage = () => {
@@ -42,9 +43,14 @@ const LoginPage = () => {
         };
 
         axios(option)
-            .then((response) => {
-                console.log(response);
+            .then(({ data }) => {
+                console.log(data);
                 setIsLogin(true);
+
+                secureLocalStorage.setItem("id", data.id);
+                secureLocalStorage.setItem("role", data.role);
+                secureLocalStorage.setItem("token", data.token);
+                
                 document.location.replace("/");
             })
             .catch((error) => {
