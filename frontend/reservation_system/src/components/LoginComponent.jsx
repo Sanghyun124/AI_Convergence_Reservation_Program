@@ -14,7 +14,17 @@ const Form = {
     width: 200,
 }
 
-const InputComponent = ({ handleOnKey, handleStudentId, handlePassword, handleLoginClick }) => {
+const Button1 = {
+    width: 90,
+    marginRight: 10,
+}
+
+const Button2 = {
+    width: 90,
+    marginLeft: 10,
+}
+
+const LoginComponent = ({ handleOnKey, handleStudentId, handlePassword, handleLoginClick, handleFindPwClick }) => {
     return (
         <div style={Div}>
             <form style={Form} onKeyDown={handleOnKey}>
@@ -27,11 +37,12 @@ const InputComponent = ({ handleOnKey, handleStudentId, handlePassword, handleLo
                 <br></br>
 
                 <div style={{textAlign: 'center'}}>
-                    <button type="button" onClick={handleLoginClick}>로그인</button>
+                    <button type="button" style={Button1} onClick={handleLoginClick}>로그인</button>
+                    <button type="button" style={Button2} onClick={handleFindPwClick}>비밀번호 찾기</button>
                 </div>
             </form>
         </div>
     )
 }
 
-export default InputComponent
+export default LoginComponent
