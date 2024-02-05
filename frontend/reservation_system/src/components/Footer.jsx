@@ -1,5 +1,9 @@
 function Footer() {
-  return <p>2023</p>;
+  return (
+    <div id="footer">
+      <p>2023</p>
+    </div>
+  );
 }
 
 export default Footer;
