@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "../utils/recoilState";
 import secureLocalStorage from "react-secure-storage";
