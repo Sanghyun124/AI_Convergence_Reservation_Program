@@ -3,7 +3,7 @@ package CSS.ReservationSystem.service;
 import CSS.ReservationSystem.domain.Member;
 import CSS.ReservationSystem.dto.*;
 import CSS.ReservationSystem.repository.MemberRepository;
-import CSS.ReservationSystem.security.JwtTokenProvider;
+import CSS.ReservationSystem.jwt.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;

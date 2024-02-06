@@ -1,4 +1,4 @@
-package CSS.ReservationSystem.security;
+package CSS.ReservationSystem.jwt;
 
 import CSS.ReservationSystem.service.MemberDetailsService;
 import io.jsonwebtoken.Claims;
@@ -15,7 +15,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -65,18 +64,23 @@ public class JwtTokenProvider {
     }
 
     public boolean validateToken(String token) {
-        try {
-            // Bearer 검증
-            if(!token.substring(0, "BEARER ".length()).equalsIgnoreCase("BEARER ")) {
-                return false;
-            } else {
-                token = token.split(" ")[1].trim();
-            }
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date()); // 만료되었다면 false return
-        } catch(Exception e) {
-            return false;
+//        try {
+//            // Bearer 검증
+//            if(!token.substring(0, "BEARER ".length()).equalsIgnoreCase("BEARER ")) {
+//                return false;
+//            } else {
+//                token = token.split(" ")[1].trim();
+//            }
+//            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+//            return !claims.getBody().getExpiration().before(new Date()); // 만료되었다면 false return
+//        } catch(Exception e) {
+//            return false;
+//        }
+        if(token.substring(0, "BEARER ".length()).equalsIgnoreCase("BEARER ")) {
+            token = token.split(" ")[1].trim();
         }
+        Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+        return true;
     }
 
     public Claims parseJWT(String token) {

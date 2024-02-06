@@ -1,7 +1,8 @@
 package CSS.ReservationSystem.configuration;
 
-import CSS.ReservationSystem.security.JwtAuthenticationFilter;
-import CSS.ReservationSystem.security.JwtTokenProvider;
+import CSS.ReservationSystem.jwt.CustomAuthenticationEntryPoint;
+import CSS.ReservationSystem.jwt.JwtAuthenticationFilter;
+import CSS.ReservationSystem.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,15 +71,16 @@ public class SecurityConfig {
                         response.getWriter().write("Unauthorized User.");
                     }
                 })
-                .authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    @Override
-                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                        response.setStatus(401);
-                        response.setCharacterEncoding("utf-8");
-                        response.setContentType("text/html; charset=UTF-8");
-                        response.getWriter().write("Unauthenticated User.");
-                    }
-                });
+//                .authenticationEntryPoint(new AuthenticationEntryPoint() {
+//                    @Override
+//                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+//                        response.setStatus(401);
+//                        response.setCharacterEncoding("utf-8");
+//                        response.setContentType("text/html; charset=UTF-8");
+//                        response.getWriter().write("Unauthenticated User.");
+//                    }
+//                })
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
         return http.build();
     }
 
