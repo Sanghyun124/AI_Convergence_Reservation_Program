@@ -1,6 +1,7 @@
 import React from "react";
 
-import "../styles/Login.scss";
+import "../styles/login.scss";
+import Button from "./Button";
 
 const LoginComponent = ({
   handleOnKey,
@@ -15,25 +16,23 @@ const LoginComponent = ({
         <div className="inputContainer">
           <label>학번</label>
           <input
-            type="text"
+            type="number"
             onChange={handleStudentId}
-            autoComplete="off"></input>
+            autoComplete="off"
+            required></input>
         </div>
         <div className="inputContainer">
           <label>비밀번호</label>
           <input
             type="password"
             onChange={handlePassword}
-            autoComplete="off"></input>
+            autoComplete="off"
+            required></input>
         </div>
 
         <div className="buttonContainer">
-          <button type="button" className="button" onClick={handleLoginClick}>
-            로그인
-          </button>
-          <button type="button" className="button" onClick={handleFindPwClick}>
-            비밀번호 찾기
-          </button>
+          <Button onClickFtn={handleLoginClick} text={"로그인"} />
+          <Button onClickFtn={handleFindPwClick} text={"비밀번호 찾기"} />
         </div>
       </form>
     </div>

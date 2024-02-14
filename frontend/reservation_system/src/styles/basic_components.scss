@@ -1,0 +1,22 @@
+@import "./variables";
+
+#normal-button {
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  min-width: 100px;
+  min-height: 30px;
+  margin: 5px;
+  padding: 5px;
+
+  border: 3px solid $main-color;
+  color: white;
+  background-color: $seco-color;
+
+  font-size: 16px;
+  font-weight: $bold-weight;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}

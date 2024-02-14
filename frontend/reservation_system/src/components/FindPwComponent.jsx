@@ -1,5 +1,7 @@
 import React from "react";
 
+import Button from "./Button";
+
 const Div = {
   display: "flex",
   justifyContent: "center",
@@ -25,18 +27,19 @@ const FindPwComponent = ({
       <form style={Form} onKeyDown={handleOnKey}>
         <label>학번</label>
         <input
-          type="text"
+          type="number"
           onChange={handleStudentId}
-          autoComplete="off"></input>
-
+          autoComplete="off"
+          required></input>
         <label>이메일</label>
-        <input type="text" onChange={handleEmail} autoComplete="off"></input>
-
-        <br></br>
-
-        <button type="button" onClick={handleFindPwClick}>
-          비밀번호 찾기
-        </button>
+        <input
+          type="email"
+          onChange={handleEmail}
+          autoComplete="off"
+          pattern="[a-z0-9._%+-]+@+[a-z0-9._%+-]"
+          title="이메일 형식에 맞게 입력해주세요"
+          required></input>
+        <Button onClickFtn={handleFindPwClick} text={"비밀번호 찾기"} />
       </form>
     </div>
   );

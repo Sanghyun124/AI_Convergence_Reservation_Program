@@ -5,6 +5,7 @@ import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Button from "../components/Button";
 
 const RootPage = () => {
   const [isLogin, setIsLogin] = useRecoilState(userInfoState);
@@ -72,12 +73,11 @@ const RootPage = () => {
           <div id="main">
             <p>안녕하세요. {name}님.</p>
             <p> Your Role is {role}. This is Main page. After Login.</p>
-            <button type="button" onClick={handleLogoutButtonClick}>
-              로그아웃
-            </button>
-            <button type="button" onClick={handleAdminButtonClick}>
-              관리자 페이지
-            </button>
+            <Button onClickFtn={handleLogoutButtonClick} text={"로그아웃"} />
+            <Button
+              onClickFtn={handleAdminButtonClick}
+              text={"관리자 페이지"}
+            />
           </div>
           <Footer />
         </>
@@ -90,9 +90,7 @@ const RootPage = () => {
           <div id="main">
             <p>안녕하세요. {name}님.</p>
             <p>Your Role is {role}. This is Main page. After Login.</p>
-            <button type="button" onClick={handleLogoutButtonClick}>
-              로그아웃
-            </button>
+            <Button onClickFtn={handleLogoutButtonClick} text={"로그아웃"} />
           </div>
           <Footer />
         </>
@@ -105,9 +103,7 @@ const RootPage = () => {
         <Header />
         <div id="main">
           <p>AI융합학부 세미나실 예약 시스템에 오신 것을 환영합니다.</p>
-          <button type="button" onClick={handleLoginButtonClick}>
-            로그인
-          </button>
+          <Button onClickFtn={handleLoginButtonClick} text={"로그인"} />
         </div>
         <Footer />
       </>

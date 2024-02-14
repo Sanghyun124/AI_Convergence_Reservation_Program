@@ -1,4 +1,4 @@
-$font_main: "Pretendard Variable";
+@import "./styles/variables";
 
 @font-face {
   font-family: $font_main;
@@ -51,4 +51,11 @@ body {
   margin: 20px;
   z-index: 1000;
   padding: 10px;
+}
+
+//기본 동작 제한
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
