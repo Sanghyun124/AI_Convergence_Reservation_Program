@@ -1,17 +1,33 @@
 @import "./variables";
 
+.title {
+  font-weight: $bold-weight;
+  color: $main-color;
+
+  margin-bottom: 5%;
+}
+
+#input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  padding: 5%;
+}
+
 #normal-button {
   display: inline-block;
   border: none;
   border-radius: 5px;
-  min-width: 100px;
+  min-width: 150px;
   min-height: 30px;
   margin: 5px;
   padding: 5px;
 
   border: 3px solid $main-color;
-  color: white;
-  background-color: $seco-color;
+  color: $main-color;
+  background-color: rgba($seco-color, 0.2);
 
   font-size: 16px;
   font-weight: $bold-weight;
@@ -19,4 +35,28 @@
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+#normal-input {
+  appearance: none;
+  border: none;
+  outline: none;
+
+  min-width: 200px;
+  min-height: 30px;
+  margin: 0.4em;
+  padding: 0.4em;
+
+  border-bottom: 0.2em solid $main-color;
+  background: rgba($seco-color, 0.2);
+  border-radius: 0.2em 0.2em 0 0;
+  
+  color: $main-color;
+}
+
+#input-label {
+  font-weight: $bold-weight;
+  color: $main-color;
+
+  margin-bottom: 5%;
 }

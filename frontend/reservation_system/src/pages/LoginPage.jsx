@@ -68,7 +68,7 @@ const LoginPage = () => {
 
   return (
     <div id="main">
-      <Header />
+      <Header page={"로그인"} />
       <LoginComponent
         handleOnKey={handleOnKeyPress}
         handleStudentId={handleStudentIdChange}

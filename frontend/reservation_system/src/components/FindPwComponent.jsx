@@ -1,6 +1,7 @@
 import React from "react";
 
 import Button from "./Button";
+import NormalInput from "./NormalInput";
 
 const Div = {
   display: "flex",
@@ -25,20 +26,16 @@ const FindPwComponent = ({
   return (
     <div style={Div}>
       <form style={Form} onKeyDown={handleOnKey}>
-        <label>학번</label>
-        <input
-          type="number"
-          onChange={handleStudentId}
-          autoComplete="off"
-          required></input>
-        <label>이메일</label>
-        <input
-          type="email"
-          onChange={handleEmail}
-          autoComplete="off"
-          pattern="[a-z0-9._%+-]+@+[a-z0-9._%+-]"
-          title="이메일 형식에 맞게 입력해주세요"
-          required></input>
+        <NormalInput
+          label={"학번"}
+          type={"number"}
+          onChangeFtn={handleStudentId}
+        />
+        <NormalInput
+          label={"이메일"}
+          type={"email"}
+          onChangeFtn={handleEmail}
+        />
         <Button onClickFtn={handleFindPwClick} text={"비밀번호 찾기"} />
       </form>
     </div>

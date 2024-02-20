@@ -3,6 +3,8 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "../utils/recoilState";
 import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
+
+import "../styles/basic_components.scss";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Button from "../components/Button";
@@ -63,52 +65,79 @@ const RootPage = () => {
     document.location.href = "/admin";
   };
 
-  if (isLogin) {
-    // 로그인이 되어있는 경우의 rendering
-    if (role === "ROLE_ADMIN") {
-      // 관리자 권한인 경우의 rendering
-      return (
-        <>
-          <Header />
+  return (
+    <>
+      <Header />
+      {isLogin ? (
+        role === "ROLE_ADMIN" ? (
           <div id="main">
-            <p>안녕하세요. {name}님.</p>
-            <p> Your Role is {role}. This is Main page. After Login.</p>
             <Button onClickFtn={handleLogoutButtonClick} text={"로그아웃"} />
             <Button
               onClickFtn={handleAdminButtonClick}
               text={"관리자 페이지"}
             />
           </div>
-          <Footer />
-        </>
-      );
-    } else {
-      // 관리자 권한이 아닌 경우의 rendering
-      return (
-        <>
-          <Header />
+        ) : (
           <div id="main">
-            <p>안녕하세요. {name}님.</p>
-            <p>Your Role is {role}. This is Main page. After Login.</p>
             <Button onClickFtn={handleLogoutButtonClick} text={"로그아웃"} />
           </div>
-          <Footer />
-        </>
-      );
-    }
-  } else {
-    // 로그인이 되어있지 않은 경우의 rendering
-    return (
-      <>
-        <Header />
+        )
+      ) : (
         <div id="main">
-          <p>AI융합학부 세미나실 예약 시스템에 오신 것을 환영합니다.</p>
+          <p className="title">
+            AI융합학부 세미나실 예약 시스템에 오신 것을 환영합니다.
+          </p>
+          <div
+            id="reservation-status"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              width: "100%",
+            }}>
+            <div
+              style={{
+                border: "1px solid black",
+                width: "100px",
+                height: "100px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}>
+              <h4>세미나실 A</h4>
+              <p>사용중(~15시)</p>
+            </div>
+            <div
+              style={{
+                border: "1px solid black",
+                width: "100px",
+                height: "100px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}>
+              <h4>세미나실 B</h4>
+              <p>사용가능</p>
+            </div>
+            <div
+              style={{
+                border: "1px solid black",
+                width: "100px",
+                height: "100px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}>
+              <h4>세미나실 C</h4>
+              <p>사용중(~14시)</p>
+            </div>
+          </div>
           <Button onClickFtn={handleLoginButtonClick} text={"로그인"} />
         </div>
-        <Footer />
-      </>
-    );
-  }
+      )}
+      <Footer />
+    </>
+  );
 };
 
 export default RootPage;

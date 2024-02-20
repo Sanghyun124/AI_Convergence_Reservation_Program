@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import FindPwComponent from "../components/FindPwComponent";
+import Header from "../components/Header";
 
 const FindPasswordPage = () => {
   const [studentId, setStudentId] = useState("");
@@ -46,7 +47,8 @@ const FindPasswordPage = () => {
   };
 
   return (
-    <div>
+    <div id="main">
+      <Header page={"비밀번호 찾기"} />
       <FindPwComponent
         handleOnKey={handleOnKeyPress}
         handleStudentId={handleStudentIdChange}

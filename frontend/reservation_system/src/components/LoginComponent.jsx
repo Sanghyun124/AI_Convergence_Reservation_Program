@@ -2,6 +2,7 @@ import React from "react";
 
 import "../styles/login.scss";
 import Button from "./Button";
+import NormalInput from "./NormalInput";
 
 const LoginComponent = ({
   handleOnKey,
@@ -14,22 +15,19 @@ const LoginComponent = ({
     <div className="container">
       <form onKeyDown={handleOnKey}>
         <div className="inputContainer">
-          <label>학번</label>
-          <input
-            type="number"
-            onChange={handleStudentId}
-            autoComplete="off"
-            required></input>
+          <NormalInput
+            label={"학번"}
+            type={"number"}
+            onChangeFtn={handleStudentId}
+          />
         </div>
         <div className="inputContainer">
-          <label>비밀번호</label>
-          <input
-            type="password"
-            onChange={handlePassword}
-            autoComplete="off"
-            required></input>
+          <NormalInput
+            label={"비밀번호"}
+            type={"password"}
+            onChangeFtn={handlePassword}
+          />
         </div>
-
         <div className="buttonContainer">
           <Button onClickFtn={handleLoginClick} text={"로그인"} />
           <Button onClickFtn={handleFindPwClick} text={"비밀번호 찾기"} />
