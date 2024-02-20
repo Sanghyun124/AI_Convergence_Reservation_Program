@@ -1,0 +1,65 @@
+@import "./styles/variables";
+
+@font-face {
+  font-family: $font_main;
+  src: url("./fonts/PretendardVariable.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: $font_main, sans-serif;
+}
+
+body {
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100vw;
+  height: 100vh;
+  
+  @media only screen and (max-width: 767px) {
+    width: 100%;
+  }
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+
+  width: 60%;
+  height: 80%;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  margin: 20px;
+  z-index: 1000;
+  padding: 10px;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  margin: 20px;
+  z-index: 1000;
+  padding: 10px;
+}
+
+//기본 동작 제한
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

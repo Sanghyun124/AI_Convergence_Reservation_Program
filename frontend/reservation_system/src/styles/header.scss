@@ -1,0 +1,12 @@
+@import "./variables";
+
+#header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#header-title {
+  font-size: 20px;
+}
